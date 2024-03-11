@@ -10,7 +10,7 @@ if (authToken) {
 <template>
   <div class="container-main">
     <div>
-      <div><span>Create account for employe</span></div>
+      <div class="container-information"><span>Create account for employe</span></div>
       <form action="">
         <span>First name</span>
         <div>
@@ -58,5 +58,20 @@ if (authToken) {
   justify-content: center;
   align-items: center;
 }
-
+.container-information {
+  background: rgb(59, 144, 100);
+  background: linear-gradient(0deg, rgba(59, 144, 100, 1) 10%, rgba(50, 222, 132, 1) 100%);
+  width: 100vw;
+  height: 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  padding-bottom: 10px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  color: #ffffff;
+}
 </style>
