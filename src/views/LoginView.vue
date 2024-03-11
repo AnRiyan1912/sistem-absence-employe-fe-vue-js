@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import axios from 'axios'
+import { AUTH, BASE_URL } from '@/util/ApiUrl'
 
 const showPassword = ref(false)
 const handleShowPassword = (event: MouseEvent) => {
@@ -12,6 +14,14 @@ const handleShowPassword = (event: MouseEvent) => {
 }
 const username = defineModel('username')
 const password = defineModel('passsword')
+
+const onLogin = async () => {
+  const response = await axios.post(BASE_URL + AUTH + 'login', {
+    usernameOrEmail: username,
+    password: password
+  })
+  console.log(response)
+}
 </script>
 <template>
   <div class="flex container-main">
@@ -27,7 +37,7 @@ const password = defineModel('passsword')
     </div>
 
     <div class="flex padding-l-r-10">
-      <form action="" class="container-form">
+      <form action="" class="container-form" @submit.prevent="onLogin">
         <div class="flex"><h4>SignIn</h4></div>
         <span class="padding-l-r-10">Username or Email</span>
         <div class="flex padding-l-r-10 margin-bottom-30">
@@ -65,7 +75,7 @@ const password = defineModel('passsword')
         </div>
 
         <div class="flex">
-          <button class="button"><p>Login</p></button>
+          <button class="button" type="submit"><p>Login</p></button>
         </div>
       </form>
     </div>
