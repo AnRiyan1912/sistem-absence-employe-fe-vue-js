@@ -1,5 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
+const HomeView = () => import('../views/HomeView.vue')
+const AboutView = () => import('../views/AboutView.vue')
+const LoginView = () => import('../views/LoginView.vue')
+const NotFountView = () => import('../views/NotFoundView.vue')
+const RegisterView = () => import('../views/RegisterView.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,7 +20,7 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      component: () => import('../views/AboutView.vue'),
+      component: AboutView,
       meta: {
         requiresAuth: true
       }
@@ -23,14 +28,24 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login,',
-      component: () => import('../views/LoginView.vue')
+      component: LoginView
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: RegisterView
+    },
+    {
+      path: '/:catchAll(.*)',
+      name: 'Not Found',
+      component: NotFountView
     }
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
-    const token = localStorage.getItem('token')
+    const token = await sessionStorage.getItem('auth')
     if (token) {
       next()
     } else {

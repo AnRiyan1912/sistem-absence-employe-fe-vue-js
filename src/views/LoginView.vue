@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import axios from 'axios'
+import { onMounted, ref } from 'vue'
 import { AUTH, BASE_URL } from '@/util/ApiUrl'
+import client from '@/axios/config'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const showPassword = ref(false)
 const handleShowPassword = (event: MouseEvent) => {
   event.preventDefault()
@@ -16,12 +18,24 @@ const username = defineModel('username')
 const password = defineModel('passsword')
 
 const onLogin = async () => {
-  const response = await axios.post(BASE_URL + AUTH + 'login', {
-    usernameOrEmail: username,
-    password: password
+  const response = await client.post(AUTH + 'login', {
+    usernameOrEmail: username.value,
+    password: password.value
   })
-  console.log(response)
+  await sessionStorage.setItem('auth', response.data.accessToken)
+  if (response.data.accessToken) {
+    router.push({ name: 'home' })
+  } else {
+    alert(response.data.message)
+  }
 }
+
+onMounted(() => {
+  const authToken = sessionStorage.getItem('auth')
+  if (authToken) {
+    router.push('/')
+  }
+})
 </script>
 <template>
   <div class="flex container-main">

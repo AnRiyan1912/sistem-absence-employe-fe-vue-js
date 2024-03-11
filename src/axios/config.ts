@@ -4,8 +4,8 @@ import axios from 'axios'
 const client = axios.create({
   baseURL: BASE_URL,
   timeout: 1000,
-  headers: { Authorization: `Bearer ${sessionStorage.getItem('auth')}` },
-  withCredentials: true
+  headers: { Authorization: `Bearer ${sessionStorage.getItem('auth')}` }
+  //   withCredentials: true
 })
 
 client.interceptors.response.use(
@@ -46,3 +46,5 @@ client.interceptors.response.use(
     return Promise.reject(err)
   }
 )
+
+export default client
