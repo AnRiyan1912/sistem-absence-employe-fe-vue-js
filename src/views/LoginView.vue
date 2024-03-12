@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { AUTH, BASE_URL } from '@/util/ApiUrl'
+import { AUTH } from '@/util/ApiUrl'
 import client from '@/axios/config'
 import { useRouter } from 'vue-router'
 
@@ -16,17 +16,17 @@ const handleShowPassword = (event: MouseEvent) => {
 }
 const username = defineModel('username')
 const password = defineModel('passsword')
-
 const onLogin = async () => {
   const response = await client.post(AUTH + 'login', {
     usernameOrEmail: username.value,
     password: password.value
   })
-  await sessionStorage.setItem('auth', response.data.accessToken)
   if (response.data.accessToken) {
+    await sessionStorage.setItem('auth', response.data.accessToken)
     router.push({ name: 'home' })
-  } else {
-    alert(response.data.message)
+    alert('Success login')
+  } else if (response.data.status != 200) {
+    alert('Failed login wrong username or password')
   }
 }
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import client from '@/axios/config'
+import { AUTH } from '@/util/ApiUrl'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -12,6 +14,7 @@ const username = defineModel('username')
 const email = defineModel('email')
 const password = defineModel('password')
 const role = defineModel('role')
+
 const onShowPassword = () => {
   if (showPassword.value == false) {
     showPassword.value = true
@@ -19,56 +22,86 @@ const onShowPassword = () => {
     showPassword.value = false
   }
 }
-const authToken = sessionStorage.getItem('auth')
-if (authToken) {
-  router.push({ name: 'home' })
+const onRegister = async () => {
+  const body = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    age: age.value,
+    address: address.value,
+    username: username.value,
+    email: email.value,
+    password: password.value,
+    role: role.value
+  }
+  const response = await client.post(AUTH + 'register', body)
+  if (response.data.status == 200) {
+    alert('Success register please login')
+  } else {
+    alert('Failed register ' + response.data.message)
+  }
 }
 </script>
 <template>
+  {{ age }}
   <div class="">
     <div class="container-information"><span>Create account for employe</span></div>
     <div class="padding-l-r-10 flex">
-      <form action="" class="container-form">
+      <form action="" class="container-form" @submit.prevent="onRegister">
         <span class="padding-l-r-10">First name</span>
         <div class="flex padding-l-r-10 margin-bottom-30">
           <div class="container-input">
-            <input type="text" class="input" placeholder="Input your first name" />
+            <input
+              type="text"
+              class="input"
+              placeholder="Input your first name"
+              v-model="firstName"
+            />
           </div>
         </div>
         <span class="padding-l-r-10">Last name</span>
         <div class="flex padding-l-r-10 margin-bottom-30">
           <div class="container-input">
-            <input type="text" class="input" placeholder="Input your last name" />
+            <input
+              type="text"
+              class="input"
+              placeholder="Input your last name"
+              v-model="lastName"
+            />
           </div>
         </div>
         <span class="padding-l-r-10">Age</span>
         <div class="flex padding-l-r-10 margin-bottom-30">
           <div class="container-input">
-            <input type="text" class="input" placeholder="Input your age" />
+            <input type="text" class="input" placeholder="Input your age" v-model="age" />
           </div>
         </div>
         <span class="padding-l-r-10">Address</span>
         <div class="flex padding-l-r-10 margin-bottom-30">
           <div class="container-input">
-            <input type="text" class="input" placeholder="Input your address" />
+            <input type="text" class="input" placeholder="Input your address" v-model="address" />
           </div>
         </div>
         <span class="padding-l-r-10">Username</span>
         <div class="flex padding-l-r-10 margin-bottom-30">
           <div class="container-input">
-            <input type="text" class="input" placeholder="Input your username" />
+            <input type="text" class="input" placeholder="Input your username" v-model="username" />
           </div>
         </div>
         <span class="padding-l-r-10">Email</span>
         <div class="flex padding-l-r-10 margin-bottom-30">
           <div class="container-input">
-            <input type="text" class="input" placeholder="Input your email" />
+            <input type="text" class="input" placeholder="Input your email" v-model="email" />
           </div>
         </div>
         <span class="padding-l-r-10">Password</span>
         <div class="padding-l-r-10 margin-bottom-30">
           <div class="flex container-input" v-show="showPassword == false">
-            <input type="password" class="input" placeholder="input your password" />
+            <input
+              type="password"
+              class="input"
+              placeholder="input your password"
+              v-model="password"
+            />
             <div class="padding-l-r-5" @click.prevent="onShowPassword">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <path
@@ -78,7 +111,7 @@ if (authToken) {
             </div>
           </div>
           <div class="flex container-input" v-show="showPassword">
-            <input type="text" class="input" placeholder="input your password" />
+            <input type="text" class="input" placeholder="input your password" v-model="password" />
             <div class="padding-l-r-5" @click.prevent="onShowPassword">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <path
