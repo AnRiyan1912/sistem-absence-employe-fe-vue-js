@@ -6,6 +6,9 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const showPassword = ref(false)
+const username = defineModel('username')
+const password = defineModel('passsword')
+
 const handleShowPassword = (event: MouseEvent) => {
   event.preventDefault()
   if (showPassword.value == false) {
@@ -14,8 +17,6 @@ const handleShowPassword = (event: MouseEvent) => {
     showPassword.value = false
   }
 }
-const username = defineModel('username')
-const password = defineModel('passsword')
 const onLogin = async () => {
   const response = await client.post(AUTH + 'login', {
     usernameOrEmail: username.value,
@@ -29,7 +30,9 @@ const onLogin = async () => {
     alert('Failed login wrong username or password')
   }
 }
-
+const gotToForgotPasswordView = () => {
+  router.push('/forgot_password')
+}
 onMounted(() => {
   const authToken = sessionStorage.getItem('auth')
   if (authToken) {
@@ -85,6 +88,10 @@ onMounted(() => {
                 />
               </svg>
             </div>
+          </div>
+          <div class="flex justify-between">
+            <div></div>
+            <div><u @click="gotToForgotPasswordView()">Forgot password</u></div>
           </div>
         </div>
 
@@ -162,6 +169,10 @@ onMounted(() => {
   }
   .container-input:focus-within {
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+  }
+  .justify-between {
+    justify-content: space-between;
+    align-items: center;
   }
   .button {
     padding-left: 10px;
