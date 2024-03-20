@@ -1,3 +1,4 @@
+import { idText } from 'typescript'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const HomeView = () => import('../views/HomeView.vue')
@@ -6,6 +7,7 @@ const LoginView = () => import('../views/LoginView.vue')
 const NotFountView = () => import('../views/NotFoundView.vue')
 const RegisterView = () => import('../views/RegisterView.vue')
 const ForgotPasswordView = () => import('../views/ForgotPasswordView.vue')
+const ChangePasswordView = () => import('../views/ChangePasswordView.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,6 +44,14 @@ const router = createRouter({
       component: ForgotPasswordView
     },
     {
+      path: '/change_password',
+      name: 'change_password',
+      component: ChangePasswordView,
+      meta: {
+        requiresVerificationCode: true
+      }
+    },
+    {
       path: '/:catchAll(.*)',
       name: 'Not Found',
       component: NotFountView
@@ -56,6 +66,13 @@ router.beforeEach(async (to, from, next) => {
       next()
     } else {
       next('/login')
+    }
+  } else if (to.meta.requiresVerificationCode) {
+    const verifyStatis = await sessionStorage.getItem('verification')
+    if (verifyStatis) {
+      next()
+    } else {
+      next('/forgot_password')
     }
   } else {
     next()
