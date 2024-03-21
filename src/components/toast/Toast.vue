@@ -21,7 +21,8 @@ const { message, backgroundColor } = defineProps({
         padding: '10px',
         backgroundColor: backgroundColor,
         color: 'white',
-        borderRadius: '4px'
+        borderRadius: '4px',
+        zIndex: 99999999
       }"
     >
       {{ message }}

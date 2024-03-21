@@ -30,7 +30,7 @@ const router = createRouter({
     },
     {
       path: '/login',
-      name: 'login,',
+      name: 'login',
       component: LoginView
     },
     {
