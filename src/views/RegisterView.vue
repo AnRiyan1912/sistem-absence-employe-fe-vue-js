@@ -42,7 +42,6 @@ const onRegister = async () => {
 }
 </script>
 <template>
-  {{ age }}
   <div class="">
     <div class="container-information"><span>Create account for employe</span></div>
     <div class="padding-l-r-10 flex">
@@ -169,9 +168,10 @@ const onRegister = async () => {
     border: solid 1px black;
     border-radius: 10px;
     transition: box-shadow 0.3s ease;
+    width: 350px;
   }
   .input {
-    width: 350px;
+    width: 347px;
     height: 40px;
     border-radius: 10px;
     padding-left: 10px;

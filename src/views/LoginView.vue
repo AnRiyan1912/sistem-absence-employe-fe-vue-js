@@ -157,9 +157,10 @@ onMounted(() => {
     border: solid 1px black;
     border-radius: 10px;
     transition: box-shadow 0.3s ease;
+    width: 350px;
   }
   .input {
-    width: 350px;
+    width: 347px;
     height: 40px;
     border-radius: 10px;
     padding-left: 10px;
