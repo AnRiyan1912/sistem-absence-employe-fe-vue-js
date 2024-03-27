@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TheLocation from '@/components/TheLocation.vue'
 import { useRouter } from 'vue-router'
 
 const route = useRouter()
@@ -9,6 +10,7 @@ const navigateToAbsenceView = () => {
 <template>
   <main>
     <div>
+      <TheLocation />
       <div class="container-icon-calender" @click.prevent="navigateToAbsenceView()">
         <div class="flex justify-center">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
